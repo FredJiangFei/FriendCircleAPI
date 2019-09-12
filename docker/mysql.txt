@@ -1,0 +1,11 @@
+https://www.cnblogs.com/sheng-jie/p/8249660.html
+
+docker pull mysql
+docker run --name hello.mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+docker exec -it hello.mysql mysql -uroot -p123456
+show databases;
+
+
+docker volume create --name hello.db
+docker volume inspect hello.db
+docker run --name hello.mysql -v hello.db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql
