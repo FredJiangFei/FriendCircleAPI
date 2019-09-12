@@ -1,6 +1,4 @@
 ﻿using FriendCircle.Data;
-using FriendCircle.Repositories.Implements;
-using FriendCircle.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +21,6 @@ namespace FriendCircle
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<MySqlDbContext>(x => x.UseMySql(Configuration.GetConnectionString("MySql")));
-            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -34,7 +31,6 @@ namespace FriendCircle
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

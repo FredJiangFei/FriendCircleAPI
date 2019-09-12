@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FriendCircle.Data;
-using FriendCircle.Repositories.Interfaces;
 using FriendCircle.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,23 +10,34 @@ namespace FriendCircle.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-
-        public UsersController(IUserRepository userRepository)
+        private readonly MySqlDbContext _context;
+        public UsersController(MySqlDbContext context)
         {
-            _userRepository = userRepository;
+            _context = context;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserRequest request)
+        public async Task<IActionResult> Create(User request)
         {
-            var user = new User
+            _context.Users.Add(request);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost("{userId}/relations")]
+        public async Task<IActionResult> AddFriend(string userId, FriendRequest request)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.UserId == userId);
+            if (user != null)
             {
-                UserId = request.UserId,
-                Name = request.Name
-            };
-            await _userRepository.Add(user);
-            return Ok(request.UserId);
+                user.Friends.Add(new Relation
+                {
+                    UserId = userId,
+                    FriendId = request.FriendId
+                });
+                await _context.SaveChangesAsync();
+            }
+            return Ok();
         }
     }
 }

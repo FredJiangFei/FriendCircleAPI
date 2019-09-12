@@ -7,24 +7,8 @@ namespace FriendCircle.Data
     {
         public static void Initialize(MySqlDbContext context)
         {
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-
-            if (context.Users.Any())
-            {
-                return;
-            }
-
-            var users = new User[]
-            {
-                new User{
-                    UserId = Guid.NewGuid().ToString(),
-                    Name = "Fred"
-                },
-            };
-
-            context.Users.AddRange(users);
-
-            context.SaveChanges();
         }
     }
 }
