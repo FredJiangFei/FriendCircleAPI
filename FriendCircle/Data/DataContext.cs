@@ -11,6 +11,7 @@ namespace FriendCircle.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Relation> Relations { get; set; }
         public DbSet<Moment> Moments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

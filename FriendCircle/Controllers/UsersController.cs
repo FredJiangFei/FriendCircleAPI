@@ -100,13 +100,24 @@ namespace FriendCircle.Controllers
 
             var moments = _context.Moments
             .Include(x => x.User)
-            .Where(x => momentUserIds.Contains(x.User.UserId))
+            .Where(x => momentUserIds.Contains(x.User.UserId));
+
+            if (!string.IsNullOrEmpty(lastId))
+            {
+                var lastMoment = moments.FirstOrDefault(x => x.MomentId == lastId);
+                if (lastMoment != null)
+                {
+                    moments = moments.Where(x => x.Created < lastMoment.Created);
+                }
+            }
+
+            var momentResult = moments
             .OrderByDescending(x => x.Created)
-            .ToList();
+            .Take(50);
 
             var momentResponse = new MomentResponse
             {
-                Data = moments.Select(x => new MomentResponseData
+                Data = momentResult.Select(x => new MomentResponseData
                 {
                     MomentId = x.MomentId,
                     MomentUserId = x.User.UserId,
