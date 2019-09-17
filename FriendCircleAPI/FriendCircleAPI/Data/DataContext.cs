@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace FriendCircle.Data
+namespace FriendCircleAPI.Data
 {
     public class MySqlDbContext : DbContext
     {

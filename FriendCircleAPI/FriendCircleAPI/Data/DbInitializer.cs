@@ -1,7 +1,4 @@
-using System;
-using System.Linq;
-
-namespace FriendCircle.Data
+namespace FriendCircleAPI.Data
 {
     public class DbInitializer
     {

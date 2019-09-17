@@ -1,4 +1,4 @@
-namespace FriendCircle.RequestModels
+namespace FriendCircleAPI.ResponseModels
 {
     public class UserResponse
     {

@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using FriendCircle.Data;
-using FriendCircle.RequestModels;
+using FriendCircleAPI.Data;
+using FriendCircleAPI.RequestModels;
+using FriendCircleAPI.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FriendCircle.Controllers
+namespace FriendCircleAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

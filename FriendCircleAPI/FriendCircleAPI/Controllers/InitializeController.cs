@@ -1,7 +1,7 @@
-﻿using FriendCircle.Data;
+﻿using FriendCircleAPI.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FriendCircle.Controllers
+namespace FriendCircleAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
