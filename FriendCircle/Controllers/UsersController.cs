@@ -69,7 +69,6 @@ namespace FriendCircle.Controllers
             var user = _context.Users.Single(x => x.UserId == userId);
             user.Moments.Add(new Moment
             {
-                UserId = userId,
                 MomentId = request.MomentId,
                 Content = request.Content
             });
@@ -90,9 +89,32 @@ namespace FriendCircle.Controllers
         [HttpGet("{userId}/streams")]
         public IActionResult GetMoments(string userId, string lastId)
         {
+            var user = _context.Users
+                .Include(x => x.Friends)
+                .Include(x => x.FriendOf)
+                .Single(x => x.UserId == userId);
 
+            var friendIds = user.Friends.Select(x => x.FriendId).ToList();
+            var friendOfIds = user.FriendOf.Select(x => x.UserId).ToList();
+            var momentUserIds = friendIds.Intersect(friendOfIds).Append(userId);
 
-            return Ok();
+            var moments = _context.Moments
+            .Include(x => x.User)
+            .Where(x => momentUserIds.Contains(x.User.UserId))
+            .OrderByDescending(x => x.Created)
+            .ToList();
+
+            var momentResponse = new MomentResponse
+            {
+                Data = moments.Select(x => new MomentResponseData
+                {
+                    MomentId = x.MomentId,
+                    MomentUserId = x.User.UserId,
+                    Content = x.Content
+                }).ToArray()
+            };
+
+            return Ok(momentResponse);
         }
     }
 }

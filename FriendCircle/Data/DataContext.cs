@@ -11,6 +11,7 @@ namespace FriendCircle.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Moment> Moments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,7 +31,6 @@ namespace FriendCircle.Data
             modelBuilder.Entity<User>()
             .HasMany(c => c.Moments)
             .WithOne(e => e.User);
-
         }
     }
 
@@ -55,7 +55,6 @@ namespace FriendCircle.Data
 
     public class Moment
     {
-        public string UserId { get; set; }
         public User User { get; set; }
         public string MomentId { get; set; }
         public string Content { get; set; }
